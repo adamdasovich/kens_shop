@@ -1,0 +1,31 @@
+.gitignore for Django Backend
+You can use the following .gitignore file for your Django backend project. It's designed to ignore common files and directories that are generated during development and should not be committed to version control.
+
+# Byte-compiled files
+__pycache__/
+*.pyc
+
+# Virtual environment
+/venv/
+.venv/
+
+# Database files
+*.sqlite3
+/db.sqlite3
+
+# Media and static files
+/media/
+/static/
+
+# IDE-specific files
+.idea/
+.vscode/
+*.swp
+*.bak
+.DS_Store
+
+# Django-specific files
+/migrations/
+/staticfiles/
+/local_settings.py
+.env

@@ -13,6 +13,8 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 from pathlib import Path
 import os
 from datetime import timedelta
+import stripe
+from decouple import config
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -45,6 +47,7 @@ THIRD_PARTY_APPS = [
     'rest_framework_simplejwt',
     'corsheaders',
     'django_filters',
+    'stripe',
     ]
 
 LOCAL_APPS = [
@@ -53,6 +56,7 @@ LOCAL_APPS = [
     'orders',
     'videos',
     'comments',
+    'payments'
 ]
 
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
@@ -179,3 +183,8 @@ CORS_ALLOWED_ORIGINS = [
 ]
 
 CORS_ALLOW_CREDENTTIALS = True
+
+STRIPE_PUBLISHABLE_KEY = config('STRIPE_PUBLISHABLE_KEY', default='')
+STRIPE_SECRET_KEY = config('STRIPE_SECRET_KEY', default='')
+STRIPE_WEBHOOK_SECRET = config('STRIPE_WEBHOOK_SECRET', default='')
+stripe.api_key = STRIPE_SECRET_KEY 

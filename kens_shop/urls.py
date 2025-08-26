@@ -9,7 +9,8 @@ urlpatterns = [
     path('api/', include('products.urls')),
     path('api/', include('orders.urls')),
     path('api/', include('videos.urls')),
-    path('api/', include('comments.urls'))
+    path('api/', include('comments.urls')),
+    path('api/', include('payments.urls')),
 ]
 # Serve media files in development
 if settings.DEBUG:

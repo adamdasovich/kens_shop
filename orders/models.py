@@ -2,7 +2,7 @@ from django.db import models
 from django.contrib.auth import get_user_model
 from products.models import Product
 
-User = get_user_model
+User = get_user_model()
 
 class Order(models.Model):
     STATUS_CHOICES = [
@@ -23,7 +23,7 @@ class Order(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
-        ordering = ['-created_ad']
+        ordering = ['-created_at']
 
     def __str__(self):
         return f"Order {self.order_number}"

@@ -12,9 +12,11 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 
 from pathlib import Path
 import os
+from dotenv import load_dotenv
 from datetime import timedelta
-import stripe
 from decouple import config
+
+load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -187,4 +189,6 @@ CORS_ALLOW_CREDENTTIALS = True
 STRIPE_PUBLISHABLE_KEY=os.getenv('STRIPE_PUBLISHED_KEY')
 STRIPE_SECRET_KEY=os.getenv('STRIPE_SECRET_KEY')
 # STRIPE_WEBHOOK_SECRET = config('STRIPE_WEBHOOK_SECRET', default='')
+
+import stripe
 stripe.api_key = os.getenv('STRIPE_SECRET_KEY') 

@@ -21,8 +21,8 @@ class PaymentMethodSerializer(serializers.ModelSerializer):
         read_only_fields = ['id', 'created_at']
 
 class CreatePaymentIntentSerializer(serializers.Serializer):
-    order_id = serializers.IntegerField()
-    save_payment_method = serializers.BooleanField(default=False)
+    order_id = serializers.IntegerField(required=True)
+    save_payment_method = serializers.BooleanField(required=False)
     
     def validate_order_id(self, value):
         from orders.models import Order

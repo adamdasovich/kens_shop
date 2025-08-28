@@ -24,6 +24,17 @@ class OrderViewSet(viewsets.ModelViewSet):
             order_number = get_random_string(8).upper()
         serializer.save(user=self.request.user, order_number=order_number)
 
+    # Override the create method to send back a full representation
+    def create(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        self.perform_create(serializer)
+        
+        # Manually serialize the created object with the correct serializer
+        response_serializer = OrderSerializer(serializer.instance)
+        
+        return Response(response_serializer.data, status=status.HTTP_201_CREATED)
+
     @action(detail=True, methods=['POST'])
     def cancel(self, request, pk=None):
         #Cancel an order

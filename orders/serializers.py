@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from .models import Order, OrderItem
 from products.serializers import ProductSerializer
+from decimal import Decimal
 
 class OrderItemSerializer(serializers.ModelSerializer):
     product = ProductSerializer(read_only=True)
@@ -30,13 +31,33 @@ class OrderCreateSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         items_data = validated_data.pop('items')
+        
+        # 1. Calculate the total_amount from items_data
+        total_amount = Decimal('0.00')
+        for item_data in items_data:
+            # You need the price from the related product, not the validated data
+            # since price is not a writeable field on OrderItemSerializer
+            # You should fetch the product price from the database
+            from products.models import Product  # Import here to avoid circular dependencies
+            product = Product.objects.get(pk=item_data['product_id'])
+            total_amount += product.price * item_data['quantity']
+
+        # 2. Add the calculated total_amount to validated_data before creating the order
+        validated_data['total_amount'] = total_amount
+
+        # 3. Create the Order instance with all required fields
         order = Order.objects.create(**validated_data)
 
-        total_amount = 0
+        # 4. Now, create the OrderItem instances
         for item_data in items_data:
-            order_item = OrderItem.objects.create(order=order, **item_data)
-            total_amount += order_item.price * order_item.quantity
+            # Fetch the product again to get the correct price
+            from products.models import Product
+            product = Product.objects.get(pk=item_data['product_id'])
+            OrderItem.objects.create(
+                order=order,
+                product=product,  # Set the product foreign key
+                quantity=item_data['quantity'],
+                price=product.price  # Use the product's price, not the request's
+            )
 
-        order.total_amount = total_amount
-        order.save()
         return order

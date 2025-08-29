@@ -17,7 +17,7 @@ ALLOWED_HOSTS = [
 
 # CORS settings for production
 CORS_ALLOWED_ORIGINS = [
-    "https://https://kens-shop-frontend.onrender.com",  # You'll update this with actual URL
+    "https://kens-shop-frontend.onrender.com",  # You'll update this with actual URL
     "http://localhost:3000",  # For local development
 ]
 

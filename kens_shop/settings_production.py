@@ -10,6 +10,7 @@ DEBUG = False
 
 # Add your Render service URL here (you'll update this after deployment)
 ALLOWED_HOSTS = [
+    'kens_shop-backend.onrender.com',
     '.onrender.com',  # This allows any subdomain on render
     'localhost',
     '127.0.0.1',
